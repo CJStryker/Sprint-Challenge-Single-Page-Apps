@@ -18,21 +18,32 @@ const NavStyle = styled.nav`
 
 export default function CharacterList() {
   // TODO: Add useState to track data from useEffect
-  const [character, setCharacter] = useState([]);
+    const [characterList, setCharacterList] = useState([]);
+    const [filteredList, setFilteredList] = useState([]);
+
+    const getCharacters = async () => {
+        const { data } = await axios.get("https://rickandmortyapi.com/api/character/");
+        const { results } = data;
+        setCharacterList(results);
+        setFilteredList(results);
+    };
+
+    const searchCharacters = (keyword) => {
+        if (keyword) {
+            setFilteredList(characterList.filter(item => item.name.includes(keyword)));
+            return;
+        }
+        setFilteredList(characterList);
+    };
+
+    const onChangeKeyword = (keyword) => {
+        searchCharacters(keyword);
+    };
 
   useEffect(() => {
     // TODO: Add API Request here - must run in `useEffect`
-    //  Important: verify the 2nd `useEffect` parameter: the dependancies array!
-    axios
-      .get("https://rickandmortyapi.com/api/character/")
-      .then(response => {
-        const character = response.data.results;
-        console.log(character);
-        setCharacter(character);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+      //  Important: verify the 2nd `useEffect` parameter: the dependancies array!
+      getCharacters();
   }, []);
 
   return (
@@ -41,12 +52,12 @@ export default function CharacterList() {
         <NavStyle>
           <NavLink to="/">Home</NavLink>
           <NavLink to="/character">Character List</NavLink>
-        </NavStyle>
-        <SearchForm />
+              </NavStyle>
+              <SearchForm onChangeKeyword={onChangeKeyword} />
       </div>
 
       <h2>
-        {character.map(person => {
+        {filteredList.map(person => {
           return (
             <CharacterCard
               key={person.id}

@@ -1,25 +1,16 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 
-export default function SearchForm() {
+export default function SearchForm({ onChangeKeyword }) {
   // Setting up our state for search
-  const [searchName, setSearchName] = useState("");
-  const [nameResults, setNameResults] = useState("");
-
-  useEffect(() => {
-    axios
-      .get("https://rickandmortyapi.com/api/character/")
-      .then(response => {
-        console.log(response);
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }, []);
+  const [keyword, setKeyword] = useState("");
 
   const handleChange = event => {
-    setSearchName(event.target.value);
+      setKeyword(event.target.value);
   };
+
+    useEffect(() => {
+        onChangeKeyword(keyword);
+    }, [keyword]);
 
   return (
     <section className="search-form">
@@ -30,11 +21,10 @@ export default function SearchForm() {
           type="text"
           name="searchField"
           placeholder="Search"
-          value={searchName}
+          value={keyword}
           onChange={handleChange}
         />
       </form>
-      <div className="character-list"></div>
     </section>
   );
 }
