@@ -2,26 +2,26 @@ import React from "react";
 import styled from "styled-components";
 
 const DivStyle = styled.div`
-  background: black;
-  color: white;
+  background: white;
+  color: black;
   display: flex;
   justify-content: space-around;
   align-items: center;
   margin: 5px;
   width: 95%;
-  border: 5px solid yellow;
+  border: 5px solid white;
 `;
 
 const ParStyle = styled.p`
-  background: yellow;
-  color: red;
+  background: white;
+  color: black;
   text-align: center;
   display: flex;
   justify-content: space-around;
   align-items: center;
   margin: 5px;
   width: 95%;
-  border: 5px solid yellow;
+  border: 5px solid white;
   border-radius: 5px;
 `;
 
